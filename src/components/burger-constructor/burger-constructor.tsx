@@ -12,14 +12,14 @@ import {
   getOrderSelector,
   orderBurgerThunk
 } from '../../services/slices/orderSlice';
-import { getIsAuthCheckedSelector } from '../../services/slices/userSlice';
+import { getUserSelector } from '../../services/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   const constructorItems = useSelector(getBurgerCostructorSelector);
   const orderRequest = useSelector(getOrderRequestSelector);
   const orderModalData = useSelector(getOrderSelector);
-  const user = useSelector(getIsAuthCheckedSelector);
+  const user = useSelector(getUserSelector);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -40,7 +40,6 @@ export const BurgerConstructor: FC = () => {
   const closeOrderModal = () => {
     dispatch(clearBurgerConstructor());
     dispatch(clearOrder());
-    navigate('/', { replace: true });
   };
 
   const price = useMemo(

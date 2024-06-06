@@ -7,8 +7,8 @@ import {
   registerUserApi,
   updateUserApi
 } from '@api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { deleteCookie, setCookie } from '../../utils/cookie';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { deleteCookie, getCookie, setCookie } from '../../utils/cookie';
 import { TUser } from '@utils-types';
 
 export const registerUserThunk = createAsyncThunk(
@@ -41,86 +41,94 @@ export const updateUserThunk = createAsyncThunk(
 export const logoutThunk = createAsyncThunk('user/logoutUser', async () =>
   logoutApi().then(() => {
     deleteCookie('accessToken');
-    localStorage.removeItem('refreshToken');
+    localStorage.clear();
   })
+);
+
+export const checkUserThunk = createAsyncThunk(
+  'user/checkUser',
+  async (_, { dispatch }) => {
+    if (getCookie('accessToken')) {
+      getUserApi()
+        .then((response) => {
+          dispatch(setUser(response.user));
+        })
+        .catch(() => {
+          deleteCookie('accessToken');
+          localStorage.removeItem('refreshToken');
+        })
+        .finally(() => dispatch(setAuthChecked(true)));
+    } else {
+      dispatch(setAuthChecked(true));
+    }
+  }
 );
 
 type TUserState = {
   isAuthChecked: boolean;
-  user: TUser;
+  userData: TUser | null;
   error: string | undefined;
-  loginUserRequest: boolean;
 };
 
 const initialState: TUserState = {
   isAuthChecked: false,
-  user: {
-    email: '',
-    name: ''
-  },
-  error: undefined,
-  loginUserRequest: false
+  userData: null,
+  error: undefined
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    setAuthChecked: (state, action: PayloadAction<boolean>) => {
+      state.isAuthChecked = action.payload;
+    },
+    setUser: (state, action: PayloadAction<TUser | null>) => {
+      state.userData = action.payload;
+    }
+  },
   selectors: {
-    getUserSelector: (state) => state.user,
-    getIsAuthCheckedSelector: (state) => state.isAuthChecked,
-    getErrorSelector: (state) => state.error,
-    getLoginUserRequestSelector: (state) => state.loginUserRequest
+    getUserSelector: (state) => state.userData,
+    getAuthCheckedSelector: (state) => state.isAuthChecked,
+    getErrorSelector: (state) => state.error
   },
   extraReducers: (builder) => {
     builder
       .addCase(registerUserThunk.pending, (state) => {
-        state.isAuthChecked = false;
         state.error = undefined;
       })
       .addCase(registerUserThunk.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-        state.isAuthChecked = true;
+        state.userData = action.payload.user;
       })
       .addCase(registerUserThunk.rejected, (state, action) => {
-        state.isAuthChecked = false;
         state.error = action.error.message ?? 'Ошибка при регистрации';
       })
       .addCase(loginUserThunk.pending, (state) => {
-        state.isAuthChecked = false;
         state.error = undefined;
       })
       .addCase(loginUserThunk.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-        state.isAuthChecked = true;
+        state.userData = action.payload.user;
       })
       .addCase(loginUserThunk.rejected, (state, action) => {
-        state.isAuthChecked = false;
         state.error = action.error.message ?? 'Ошибка при входе';
       })
       .addCase(getUserThunk.pending, (state) => {
-        state.isAuthChecked = false;
         state.error = undefined;
       })
       .addCase(getUserThunk.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-        state.isAuthChecked = true;
+        state.userData = action.payload.user;
       })
       .addCase(getUserThunk.rejected, (state, action) => {
-        state.isAuthChecked = false;
         state.error =
           action.error.message ?? 'Ошибка при получении данных пользователя';
       })
       .addCase(updateUserThunk.pending, (state) => {
-        state.isAuthChecked = false;
         state.error = undefined;
       })
       .addCase(updateUserThunk.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-        state.isAuthChecked = true;
+        state.userData = action.payload.user;
       })
       .addCase(updateUserThunk.rejected, (state, action) => {
-        state.isAuthChecked = false;
         state.error =
           action.error.message ?? 'Ошибка при обновлении данных пользователя';
       })
@@ -128,8 +136,7 @@ export const userSlice = createSlice({
         state.error = undefined;
       })
       .addCase(logoutThunk.fulfilled, (state) => {
-        state.user = { email: '', name: '' };
-        state.error = undefined;
+        state.userData = null;
       })
       .addCase(logoutThunk.rejected, (state, action) => {
         state.error = action.error.message ?? 'Ошибка при выходе';
@@ -137,10 +144,7 @@ export const userSlice = createSlice({
   }
 });
 
-export const {
-  getIsAuthCheckedSelector,
-  getUserSelector,
-  getErrorSelector,
-  getLoginUserRequestSelector
-} = userSlice.selectors;
+export const { getAuthCheckedSelector, getUserSelector, getErrorSelector } =
+  userSlice.selectors;
 export const userReducer = userSlice.reducer;
+export const { setAuthChecked, setUser } = userSlice.actions;

@@ -7,8 +7,13 @@ import {
 } from '../../services/slices/userSlice';
 
 export const Profile: FC = () => {
-  const user = useSelector(getUserSelector);
+  const data = useSelector(getUserSelector);
   const dispatch = useDispatch();
+
+  const user = {
+    name: data?.name || '',
+    email: data?.email || ''
+  };
 
   const [formValue, setFormValue] = useState({
     name: user.name,

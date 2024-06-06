@@ -17,7 +17,7 @@ import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/slices/burgerIngredientsSlice';
-import { getUserThunk } from '../../services/slices/userSlice';
+import { checkUserThunk } from '../../services/slices/userSlice';
 import { ProtectedRoute } from '../protected-route';
 
 const App = () => {
@@ -32,8 +32,8 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
-    dispatch(getUserThunk());
-  }, [dispatch]);
+    dispatch(checkUserThunk());
+  }, []);
 
   return (
     <div className={styles.app}>
@@ -61,7 +61,7 @@ const App = () => {
         <Route
           path='/login'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Login />
             </ProtectedRoute>
           }
@@ -69,7 +69,7 @@ const App = () => {
         <Route
           path='/register'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <Register />
             </ProtectedRoute>
           }
@@ -77,7 +77,7 @@ const App = () => {
         <Route
           path='/forgot-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute onlyUnAuth>
               <ForgotPassword />
             </ProtectedRoute>
           }
