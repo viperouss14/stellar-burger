@@ -1,9 +1,9 @@
-describe('Тустируем конструктор', () => {
+describe('Тестируем конструктор', () => {
   beforeEach(() => {
     cy.visit('http://localhost:4000/');
     cy.intercept('GET', '/api/ingredients', { fixture: 'ingredients.json' });
   });
-  describe('Тустируем добавление ингредиентов в конструктор', () => {
+  describe('Тестируем добавление ингредиентов в конструктор', () => {
     it('добавление ингредиентов в конструктор', () => {
       cy.get('[data-cy = "Краторная булка N-200i"]').children('button').click({ force: true });
       cy.get('[data-cy = "Биокотлета из марсианской Магнолии"]').children('button').click({ force: true });
@@ -17,7 +17,7 @@ describe('Тустируем конструктор', () => {
     })
   });
 
-  describe('Тустируем модальные окона', () => {
+  describe('Тестируем модальные окона', () => {
     it('открываем модальное окно', () => {
       cy.get('[data-cy = "Краторная булка N-200i"]').click();
       cy.get('[data-cy = "modal"]').should('contain.text', 'Детали ингредиента');

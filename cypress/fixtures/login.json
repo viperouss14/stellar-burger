@@ -1,7 +1,7 @@
 {
   "success": true,
-  "accessToken": "Bearer access token",
-  "refreshToken": "Fake refresh token",
+  "accessToken": "test-accessToken",
+  "refreshToken": "test-refreshToken",
   "user": {
       "email": "example@mail.ru",
       "name": "Victor"

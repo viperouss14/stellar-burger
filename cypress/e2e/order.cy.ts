@@ -1,14 +1,12 @@
-import login from '../fixtures/login.json';
-
 describe('Тестируем создание заказов', () => {
   beforeEach(() => {
     cy.visit('http://localhost:4000/');
+    cy.viewport(1280, 720);
     cy.intercept('GET', '/api/ingredients', { fixture: 'ingredients.json' });
     cy.intercept('GET', 'api/auth/user', { fixture: 'login.json' });
     cy.intercept('POST', '/api/orders', { fixture: 'order.json' });
-//todo проверить авторизацию
-    cy.setCookie('accessToken', login.accessToken);
-    localStorage.setItem('refreshToken', login.refreshToken);
+    localStorage.setItem('refreshToken', JSON.stringify('test-refreshToken'));
+    cy.setCookie('accessToken', 'test-accessToken');
   });
 
   afterEach(() => {
