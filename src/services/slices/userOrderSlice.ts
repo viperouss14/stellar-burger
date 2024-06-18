@@ -8,7 +8,7 @@ type TUserOrderSliceState = {
   error: string | undefined;
 };
 
-const initialState: TUserOrderSliceState = {
+export const initialState: TUserOrderSliceState = {
   orders: [],
   orderRequest: false,
   error: undefined

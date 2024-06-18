@@ -70,7 +70,7 @@ type TUserState = {
   error: string | undefined;
 };
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
   isAuthChecked: false,
   userData: null,
   error: undefined

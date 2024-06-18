@@ -8,7 +8,7 @@ type TBurgerState = {
   error: string | null;
 };
 
-const initialState: TBurgerState = {
+export const initialState: TBurgerState = {
   burgerIngredients: [],
   loading: false,
   error: null
@@ -19,7 +19,7 @@ export const getIngredients = createAsyncThunk(
   getIngredientsApi
 );
 
-const burgerIngredientsSlice = createSlice({
+export const burgerIngredientsSlice = createSlice({
   name: 'ingredients',
   initialState: initialState,
   reducers: {},
