@@ -1,4 +1,4 @@
-import { feedSlice, feedThunk, initialState } from "./feedSlice";
+import { feedSlice, feedThunk, initialState } from './feedSlice';
 
 describe('Тестируем feedSlice', () => {
   const actions = {
@@ -16,7 +16,7 @@ describe('Тестируем feedSlice', () => {
         payload: { orders: ['test1', 'test2'], total: 2, totalToday: 1 }
       }
     }
-  }
+  };
   describe('Тестируем получение ленты заказов', () => {
     it('тестируем состояние pending', () => {
       const newState = feedSlice.reducer(
@@ -42,7 +42,9 @@ describe('Тестируем feedSlice', () => {
       expect(newState.isLoading).toBe(false);
       expect(newState.feeds).toEqual(actions.getFeeds.fulfilled.payload.orders);
       expect(newState.total).toEqual(actions.getFeeds.fulfilled.payload.total);
-      expect(newState.totalToday).toEqual(actions.getFeeds.fulfilled.payload.totalToday);
+      expect(newState.totalToday).toEqual(
+        actions.getFeeds.fulfilled.payload.totalToday
+      );
     });
-  })
+  });
 });

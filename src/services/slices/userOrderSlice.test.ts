@@ -1,4 +1,4 @@
-import { userOrderThunk, userOrderSlice, initialState } from "./userOrderSlice";
+import { userOrderThunk, userOrderSlice, initialState } from './userOrderSlice';
 
 describe('Тестируем userOrderSlice', () => {
   const actions = {

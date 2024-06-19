@@ -76,8 +76,12 @@ describe('Тестирование burgerConstructorSlice', () => {
     };
 
     const oldLength = mockState.ingredients.length;
-    const newState = burgerConstructorReducer(mockState, addIngredient(newIngredient));
-    const addedIngredient = newState.ingredients[newState.ingredients.length - 1];
+    const newState = burgerConstructorReducer(
+      mockState,
+      addIngredient(newIngredient)
+    );
+    const addedIngredient =
+      newState.ingredients[newState.ingredients.length - 1];
 
     expect(newState.ingredients.length).toBe(oldLength + 1);
     expect(addedIngredient._id).toEqual(newIngredient._id);
@@ -88,16 +92,25 @@ describe('Тестирование burgerConstructorSlice', () => {
     const deletedIngredient = mockState.ingredients[0];
     const expectedState = {
       ...mockState,
-      ingredients: [...mockState.ingredients.filter((ingredient) => ingredient._id !== deletedIngredient._id)]
-      
+      ingredients: [
+        ...mockState.ingredients.filter(
+          (ingredient) => ingredient._id !== deletedIngredient._id
+        )
+      ]
     };
-    const newState = burgerConstructorReducer(mockState, removeIngredient(deletedIngredient));
+    const newState = burgerConstructorReducer(
+      mockState,
+      removeIngredient(deletedIngredient)
+    );
     expect(newState.ingredients.length).toBe(oldLength - 1);
     expect(newState).toEqual(expectedState);
   });
 
   it('тестируем очистку конструктора', () => {
-    const newState = burgerConstructorReducer(mockState, clearBurgerConstructor());
+    const newState = burgerConstructorReducer(
+      mockState,
+      clearBurgerConstructor()
+    );
     expect(newState).toEqual({ ...initialState });
   });
 });

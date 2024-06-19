@@ -1,4 +1,4 @@
-import { orderBurgerThunk, initialState, orderSlice } from "./orderSlice";
+import { orderBurgerThunk, initialState, orderSlice } from './orderSlice';
 
 describe('Тестируем orderSlice', () => {
   const actions = {
@@ -41,7 +41,9 @@ describe('Тестируем orderSlice', () => {
         actions.postOrder.fulfilled
       );
       expect(newState.orderRequest).toBe(false);
-      expect(newState.order?.number).toBe(actions.postOrder.fulfilled.payload.order.number);
+      expect(newState.order?.number).toBe(
+        actions.postOrder.fulfilled.payload.order.number
+      );
     });
   });
 });

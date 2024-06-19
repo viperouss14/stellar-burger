@@ -5,7 +5,7 @@ import {
   updateUserThunk,
   initialState,
   userSlice
-} from "./userSlice";
+} from './userSlice';
 
 describe('Тестируем userSlice', () => {
   const actions = {
@@ -93,7 +93,9 @@ describe('Тестируем userSlice', () => {
         actions.registerUser.fulfilled
       );
       expect(newState.error).toBe(undefined);
-      expect(newState.userData).toEqual(actions.registerUser.fulfilled.payload.user);
+      expect(newState.userData).toEqual(
+        actions.registerUser.fulfilled.payload.user
+      );
     });
   });
 
@@ -119,7 +121,9 @@ describe('Тестируем userSlice', () => {
         { ...initialState },
         actions.loginUser.fulfilled
       );
-      expect(newState.userData).toEqual(actions.loginUser.fulfilled.payload.user);
+      expect(newState.userData).toEqual(
+        actions.loginUser.fulfilled.payload.user
+      );
     });
   });
 
@@ -145,7 +149,9 @@ describe('Тестируем userSlice', () => {
         { ...initialState },
         actions.updateUser.fulfilled
       );
-      expect(newState.userData).toEqual(actions.updateUser.fulfilled.payload.user);
+      expect(newState.userData).toEqual(
+        actions.updateUser.fulfilled.payload.user
+      );
     });
   });
 

@@ -1,4 +1,4 @@
-import { orderInfoThunk, initialState, orderInfoSlice } from "./orderInfoSlice";
+import { orderInfoThunk, initialState, orderInfoSlice } from './orderInfoSlice';
 
 describe('Тестируем orderInfoSlice', () => {
   const actions = {
@@ -40,7 +40,9 @@ describe('Тестируем orderInfoSlice', () => {
         actions.getOrderInfo.fulfilled
       );
       expect(newState.orderRequest).toBe(false);
-      expect(newState.orders).toEqual(actions.getOrderInfo.fulfilled.payload.orders);
+      expect(newState.orders).toEqual(
+        actions.getOrderInfo.fulfilled.payload.orders
+      );
     });
   });
 });

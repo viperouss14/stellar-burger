@@ -1,4 +1,8 @@
-import { burgerIngredientsSlice, getIngredients, initialState } from "./burgerIngredientsSlice";
+import {
+  burgerIngredientsSlice,
+  getIngredients,
+  initialState
+} from './burgerIngredientsSlice';
 
 describe('Тестирование burgerIngredientsSlice', () => {
   const actions = {
@@ -33,7 +37,9 @@ describe('Тестирование burgerIngredientsSlice', () => {
         actions.getIngredients.rejected
       );
       expect(newState.loading).toBe(false);
-      expect(newState.error).toBe(actions.getIngredients.rejected.error.message);
+      expect(newState.error).toBe(
+        actions.getIngredients.rejected.error.message
+      );
     });
     it('тестируем состояние fulfilled', () => {
       const newState = burgerIngredientsSlice.reducer(
@@ -42,7 +48,9 @@ describe('Тестирование burgerIngredientsSlice', () => {
       );
       expect(newState.loading).toBe(false);
       expect(newState.error).toBe(null);
-      expect(newState.burgerIngredients).toEqual(actions.getIngredients.fulfilled.payload);
+      expect(newState.burgerIngredients).toEqual(
+        actions.getIngredients.fulfilled.payload
+      );
     });
   });
 });
