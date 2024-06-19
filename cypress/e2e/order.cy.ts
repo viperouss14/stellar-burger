@@ -1,12 +1,17 @@
 describe('Тестируем создание заказов', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:4000/');
-    cy.viewport(1280, 720);
-    cy.intercept('GET', '/api/ingredients', { fixture: 'ingredients.json' });
-    cy.intercept('GET', 'api/auth/user', { fixture: 'login.json' });
-    cy.intercept('POST', '/api/orders', { fixture: 'order.json' });
-    localStorage.setItem('refreshToken', JSON.stringify('test-refreshToken'));
-    cy.setCookie('accessToken', 'test-accessToken');
+    const baseUrl = Cypress.config('baseUrl');
+    if (baseUrl) {
+      cy.visit(baseUrl);
+      cy.viewport(1280, 720);
+      cy.intercept('GET', '/api/ingredients', { fixture: 'ingredients.json' });
+      cy.intercept('GET', 'api/auth/user', { fixture: 'login.json' });
+      cy.intercept('POST', '/api/orders', { fixture: 'order.json' });
+      localStorage.setItem('refreshToken', JSON.stringify('test-refreshToken'));
+      cy.setCookie('accessToken', 'test-accessToken');     
+    };
+
+    cy.get('[data-cy = "constructor"]').as('constructor');
   });
 
   afterEach(() => {
@@ -26,10 +31,10 @@ describe('Тестируем создание заказов', () => {
     cy.get('[data-cy = "modal"]').should('contain.text', 'Ваш заказ начали готовить');
     cy.get('[data-cy = "order-number"]').should('contain.text', '42888');
     cy.get('[data-cy = "modal-close"]').click();
-    cy.get('[data-cy= "constructor"]').contains('Краторная булка N-200i').should('not.exist');
-    cy.get('[data-cy= "constructor"]').contains('Биокотлета из марсианской Магнолии').should('not.exist');
-    cy.get('[data-cy= "constructor"]').contains('Соус Spicy-X').should('not.exist');
-    cy.get('[data-cy= "constructor"]').contains('Краторная булка N-200i').should('not.exist');
+    cy.get('@constructor').contains('Краторная булка N-200i').should('not.exist');
+    cy.get('@constructor').contains('Биокотлета из марсианской Магнолии').should('not.exist');
+    cy.get('@constructor').contains('Соус Spicy-X').should('not.exist');
+    cy.get('@constructor').contains('Краторная булка N-200i').should('not.exist');
     cy.get('[data-cy = "price"]').should('contain.text', '0');
   });
 });
