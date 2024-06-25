@@ -39,7 +39,10 @@ module.exports = {
       },
       {
         test: /\.(jpg|jpeg|png|svg)$/,
-        type: 'asset/resource'
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext]',
+        }
       },
       {
         test: /\.(woff|woff2)$/,
@@ -52,7 +55,13 @@ module.exports = {
       extensions: ['.js', '.jsx', '.ts', '.tsx']
     }),
     new HtmlWebpackPlugin({
-      template: './public/index.html'
+      template: './public/index.html',
+      filename: 'index.html',
+      favicon: './public/images/favicon.png'
+    }),
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+      filename: '404.html'
     }),
     new Dotenv()
   ],
@@ -83,7 +92,8 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/stellar-burger/'
   },
   devServer: {
     static: path.join(__dirname, './dist'),
